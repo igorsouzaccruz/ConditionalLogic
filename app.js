@@ -43,6 +43,12 @@ function avaliar(expr){
     var i;
     var log;
 
+    for(i = 0; i< expr.length; i++){
+        console.log(expr[i]);
+    }
+    
+   
+
     //Primeiro na ordem de precedencia
     do{
         expr = tratandoNot(expr);
@@ -146,16 +152,17 @@ function avaliar(expr){
     return expr;
 }
 
-function valores(expr, A = "F", B = "F", C = "F"){
+function valores(expr, a = "F", b = "F", c = "F"){
+    
     for(var i = 0; i < expr.length; i++){
         if(expr[i] == "A"){
-            expr[i] = A;
+            expr[i] = a;
         }
         else if(expr[i] == "B"){
-            expr[i] = B;
+            expr[i] = b;
         }
         else if(expr[i] == "C"){
-            expr[i] = C;
+            expr[i] = c;
         }
     }
     return expr;
@@ -163,17 +170,21 @@ function valores(expr, A = "F", B = "F", C = "F"){
 
 function calcular(){
     //Declaração de variáveis
-    var expr = "";
+    var expr = [];
     var qtd = 0;
-    var letras = ["A", "B", "C"];
+    // var letras = ["A", "B", "C"];
     var atr = [];
     var atr1 = [];
     var atr2= [];
     
     //Recebimento da expressão
-    expr =  document.getElementById('equacao').innerHTML;
-   
-    //Recebimento de valores lógicos das proposições
+    expr =  Array.from(document.getElementById('equacao').innerHTML);
+     
+    console.log(expr);
+    expr = valores(expr, a = "V", b = "V", c = "V");
+    console.log(expr);
+
+    /* //Recebimento de valores lógicos das proposições
 
     for(var i = 0; i < letras.length; i++)
     {
@@ -183,7 +194,7 @@ function calcular(){
         }
     }
 
-    /* var tabela = tabelaVerdade(qtd);
+     var tabela = tabelaVerdade(qtd);
    
     
  
@@ -192,10 +203,10 @@ function calcular(){
             atr[i]= tabela.A[i];
             atr1[i]= tabela.B[i];
             atr2[i]= tabela.C[i];
-        }  */
-
-        expr = valores(expr, A = "V", B = "V", C = "V")
-
+        }  
+        
+        expr = valores(expr, a = atr[0], b = atr1[0], c = atr2[0]);
+       
         var texto = document.getElementById('resposta').innerHTML = "Solução: "  
         
         if(expr.length == 1)
@@ -210,7 +221,7 @@ function calcular(){
             expr = avaliar(expr);
             document.getElementById('resposta').innerHTML = vetorToString(expr) + "x";
             //texto = document.getElementById('resposta').innerHTML = texto + valores(expr) +"<hr>"; 
-        }     
+        }      */
          
         //document.getElementById('resposta').innerHTML = texto + "</br>"+ atr + "</br>"+ atr1 + "</br>" + atr2;
        
