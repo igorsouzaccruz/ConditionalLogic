@@ -1,5 +1,5 @@
 function insertAt(array, index, ...elements){
-    array.slice(index, 0, ...elements);
+    array.splice(index, 0, ...elements);
 }
 
 function vetorToString(input){
@@ -11,17 +11,19 @@ function vetorToString(input){
 }
 
 function tratandoNot(expr){
-    for(var i = 0; i <expr.length; i++){
+    for(var i = 0; i < expr.length; i++){
         if(expr[i] == "~" && (expr[i+1] == "F" || expr[i+1] == "V"))
         {
-            if(expr[i+1] == "F"){
+            if(expr[i+1] == "F")
+            {
                 expr[i+1] = "V";
             }
-            else if(expr[i+1] == "V"){
+            else if(expr[i+1] == "V")
+            {
                 expr[i+1] = "F";
             }
-            //Remover o elemento i
-            expr.slice(i,1);
+            //Remover o elemento i      
+            expr.splice(i,1);
         }
     }
     return expr;
@@ -43,12 +45,6 @@ function avaliar(expr){
     var i;
     var log;
 
-    for(i = 0; i< expr.length; i++){
-        console.log(expr[i]);
-    }
-    
-   
-
     //Primeiro na ordem de precedencia
     do{
         expr = tratandoNot(expr);
@@ -62,7 +58,7 @@ function avaliar(expr){
             if((expr[i-1] == "V" || expr[i-1] == "F") && (expr[i+1] == "V" || expr[i+1] == "F")){
                 log = expr[i-1] + expr[i+1];
                 log = vetorToString(log);
-                expr.slice(i,1);
+                expr.splice(i,1);
                 if(log == "VV")
                 {
                     resposta = "V";
@@ -71,8 +67,8 @@ function avaliar(expr){
                 {
                     resposta = "F";
                 }
-                expr.slice(i,1);
-                expr.slice(i-1,1);
+                expr.splice(i,1);
+                expr.splice(i-1,1);
                 insertAt(expr, i-1, resposta)
             }
         }
@@ -84,7 +80,7 @@ function avaliar(expr){
             if((expr[i-1] == "V" || expr[i-1] == "F") && (expr[i+1] == "V" || expr[i+1] == "F")){
                 log = expr[i-1] + expr[i+1];
                 log = vetorToString(log);
-                expr.slice(i,1);
+                expr.splice(i,1);
                 if(log == "FF")
                 {
                     resposta = "F";
@@ -93,8 +89,8 @@ function avaliar(expr){
                 {
                     resposta = "V";
                 }
-                expr.slice(i,1);
-                expr.slice(i-1,1);
+                expr.splice(i,1);
+                expr.splice(i-1,1);
                 insertAt(expr, i-1, resposta)
             }
         }
@@ -105,7 +101,7 @@ function avaliar(expr){
             if((expr[i-1] == "V" || expr[i-1] == "F") && (expr[i+1] == "V" || expr[i+1] == "F")){
                 log = expr[i-1] + expr[i+1];
                 log = vetorToString(log);
-                expr.slice(i,1);
+                expr.splice(i,1);
                 if(log == "VF")
                 {
                     resposta = "F";
@@ -114,8 +110,8 @@ function avaliar(expr){
                 {
                     resposta = "V";
                 }
-                expr.slice(i,1);
-                expr.slice(i-1,1);
+                expr.splice(i,1);
+                expr.splice(i-1,1);
                 insertAt(expr, i-1, resposta)
             }
         }
@@ -126,7 +122,7 @@ function avaliar(expr){
             if((expr[i-1] == "V" || expr[i-1] == "F") && (expr[i+1] == "V" || expr[i+1] == "F")){
                 log = expr[i-1] + expr[i+1];
                 log = vetorToString(log);
-                expr.slice(i,1);
+                expr.splice(i,1);
                 if(log == "VV" || log =="FF")
                 {
                     resposta = "V";
@@ -135,8 +131,8 @@ function avaliar(expr){
                 {
                     resposta = "F";
                 }
-                expr.slice(i,1);
-                expr.slice(i-1,1);
+                expr.splice(i,1);
+                expr.splice(i-1,1);
                 insertAt(expr, i-1, resposta)
             }
         }
@@ -145,8 +141,8 @@ function avaliar(expr){
     {
         if(expr[i] == "(" && expr[i+2] == ")")
         {
-            expr.slice(i,1)
-            expr.slice(i+1,1)
+            expr.splice(i,1)
+            expr.splice(i+1,1)
         }
     }
     return expr;
@@ -172,19 +168,15 @@ function calcular(){
     //Declaração de variáveis
     var expr = [];
     var qtd = 0;
-    // var letras = ["A", "B", "C"];
+    var letras = ["A", "B", "C"];
     var atr = [];
     var atr1 = [];
     var atr2= [];
     
     //Recebimento da expressão
-    expr =  Array.from(document.getElementById('equacao').innerHTML);
-     
-    console.log(expr);
-    expr = valores(expr, a = "V", b = "V", c = "V");
-    console.log(expr);
+    expr =  document.getElementById('equacao').innerHTML.split("");
 
-    /* //Recebimento de valores lógicos das proposições
+     //Recebimento de valores lógicos das proposições
 
     for(var i = 0; i < letras.length; i++)
     {
@@ -204,28 +196,29 @@ function calcular(){
             atr1[i]= tabela.B[i];
             atr2[i]= tabela.C[i];
         }  
-        
-        expr = valores(expr, a = atr[0], b = atr1[0], c = atr2[0]);
-       
+
+        console.log(expr);
+        expr = valores(expr, a = atr[0], b = "F", c = atr2[0]);
+        console.log(expr);
         var texto = document.getElementById('resposta').innerHTML = "Solução: "  
         
-        if(expr.length == 1)
+       
+
+      if(expr.length == 1)
         {
-           document.getElementById('resposta').innerHTML = texto + vetorToString(valores(expr)) + "y"; 
+           document.getElementById('resposta').innerHTML = texto + vetorToString(valores(expr)); 
         }
         else{
-            
-            while(expr.includes("(")){
+            while(expr.length > 1){
                 expr = avaliar(expr);
+                console.log("teste");
             }
             expr = avaliar(expr);
-            document.getElementById('resposta').innerHTML = vetorToString(expr) + "x";
+            document.getElementById('resposta').innerHTML = vetorToString(expr);
             //texto = document.getElementById('resposta').innerHTML = texto + valores(expr) +"<hr>"; 
-        }      */
+        }  
          
         //document.getElementById('resposta').innerHTML = texto + "</br>"+ atr + "</br>"+ atr1 + "</br>" + atr2;
-       
-    
 }
 
 function insert(param){
